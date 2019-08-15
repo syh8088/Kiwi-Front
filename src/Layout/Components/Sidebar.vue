@@ -43,9 +43,13 @@
                         icon: 'pe-7s-rocket',
                         child: [
                             {
-                                href: '/',
-                                title: 'Analytics',
+                                href: '/admin/post',
+                                title: '목록',
                             },
+                            {
+                                href: '/admin/postWrite',
+                                title: '글쓰기',
+                            }
                         ]
                     },
                     {
@@ -55,11 +59,7 @@
                             {
                                 href: '/admin/category',
                                 title: '추가 및 수정',
-                            },
-                            {
-                                href: '/components/modals',
-                                title: 'Modals',
-                            },
+                            }
                         ]
                     },
 

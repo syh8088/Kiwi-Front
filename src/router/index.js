@@ -14,7 +14,13 @@ export default new Router({
         {
             path: '/admin/post',
             name: 'post',
-            component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Admin/Category/Category.vue')
+            component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Admin/Post/Post.vue')
+        },
+
+        {
+            path: '/admin/postWrite',
+            name: 'postWrite',
+            component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Admin/Post/PostWrite.vue')
         },
 
         {
