@@ -70,7 +70,7 @@
     }),
     methods: {
       linkGen (pageNum) {
-        return '#page/' + pageNum + '/foobar'
+        this.$router.push({path:'/admin/post?page=' + pageNum});
       }
     }
   }

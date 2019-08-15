@@ -1,7 +1,7 @@
 <template>
     <div>
         <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-        <b-card title="Example" class="main-card mb-4">
+        <b-card title="List" class="main-card mb-4">
   <!--          <b-table :striped="striped"
                      :bordered="bordered"
                      :outlined="outlined"
@@ -17,9 +17,13 @@
             <b-table :fields="fields" :items="items">
                 <template slot="[title]" slot-scope="data">
                     <!-- `data.value` is the value after formatted by the Formatter -->
-                    <a :href="`/admin/PostWrite?postNo=${data.item.postNo}`">{{ data.item.title }}</a>
+                    <a :href="`#/admin/postWrite?postNo=${data.item.postNo}`">{{ data.item.title }}</a>
                 </template>
             </b-table>
+           <b-pagination align="right" @change="changePage($event)" :total-rows="totalSize" v-model="page" :per-page="limit">
+            </b-pagination>
+<!--            <b-pagination-nav align="right" @change="changePage" v-model="page" :number-of-pages="totalPages" use-router>
+            </b-pagination-nav>-->
         </b-card>
     </div>
 </template>
@@ -43,32 +47,40 @@
                 key: 'title',
                 formatter: 'modify'
             }, 'category', 'tags', 'createdAt', 'updatedAt', 'state'],
-            items: []
+            items: [],
+            totalSize: 0,
+            page: 1,
+            limit: 10,
+            totalPages: 0
         }),
         created() {
             this.page = this.$route.query.page || 1;
+            console.log(this.page);
             this.getPosts();
         },
         methods: {
             modify(postNo) {
-               // this.$router.push({path:'/admin/PostWrite?postNo=' + postNo});
+                //this.$router.push({path:'/admin/PostWrite?postNo=' + postNo});
             },
-            changePage(page) {
-                this.page = page;
+            changePage(pageNo) {
+                this.page = pageNo || 1;
                 this.getPosts();
+            },
+            searchParam(key) {
+                return new URLSearchParams(location.search).get(key);
             },
             getPosts() {
                 let data = {
                     sort: "DESC",
                     order: "categoryNo",
                     offset: this.page,
-                    limit: 10
+                    limit: this.limit
                 };
 
                 this.$api.getPosts(data).then(response => {
                     if(response.status === 200 || response.status === 204) {
-
-                        let postResponses = response.data.postResponses
+                        this.items = [];
+                        let postResponses = response.data.postResponses;
 
                         let k = 0;
                         let len = postResponses.length;
@@ -92,7 +104,8 @@
                             this.items.push(data);
                         }
 
-                        this.totalSize = response.data.size;
+                        this.totalSize = response.data.totalElements;
+                        this.totalPages = response.data.totalPages;
                         console.log(response.data);
                     }
 

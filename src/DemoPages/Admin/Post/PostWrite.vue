@@ -6,13 +6,10 @@
             <div class="main-card mb-3 card">
                 <div class="card-body"><h5 class="card-title">Grid</h5>
                     <form class="">
-                        <div class="position-relative row form-group"><label for="examplePassword" class="col-sm-2 col-form-label">Password</label>
-                            <div class="col-sm-10"><input name="password" id="examplePassword" placeholder="password placeholder" type="password" class="form-control"></div>
-                        </div>
                         <div class="position-relative row form-group"><label for="category" class="col-sm-2 col-form-label">category</label>
                             <div class="col-sm-10">
-                                <select name="category" id="category" class="form-control" v-model="model.category">
-                                    <option v-for="(category) in subCategoriesData" @click.prevent="toggleDropDown(category)">{{category.name}}</option>
+                                <select name="category" id="category" class="form-control" v-model="model.categoryNo">
+                                    <option :value="category.categoryNo" v-for="(category) in subCategoriesData" @click.prevent="toggleDropDown(category)">{{category.name}}</option>
                                 </select>
                             </div>
                         </div>
@@ -298,6 +295,8 @@
                         this.model.tags = response.data.tags.map(a => {
                             return { text: a.name };
                         });
+
+                        this.model.categoryNo =  1;
 
                         console.log(response.data);
                     }
