@@ -36,6 +36,35 @@
                 menu: [
                     {
                         header: true,
+                        title: 'Blog Admin',
+                    },
+                    {
+                        title: 'Post',
+                        icon: 'pe-7s-rocket',
+                        child: [
+                            {
+                                href: '/',
+                                title: 'Analytics',
+                            },
+                        ]
+                    },
+                    {
+                        title: 'Category',
+                        icon: 'pe-7s-rocket',
+                        child: [
+                            {
+                                href: '/admin/category',
+                                title: '추가 및 수정',
+                            },
+                            {
+                                href: '/components/modals',
+                                title: 'Modals',
+                            },
+                        ]
+                    },
+
+                    {
+                        header: true,
                         title: 'Main Navigation',
                     },
                     {

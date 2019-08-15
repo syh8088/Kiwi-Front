@@ -9,6 +9,22 @@ export default new Router({
     },
     routes: [
 
+        // Admin
+
+        {
+            path: '/admin/post',
+            name: 'post',
+            component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Admin/Category/Category.vue')
+        },
+
+        {
+            path: '/admin/category',
+            name: 'category',
+            component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Admin/Category/Category.vue')
+        },
+
+
+
         // Dashboards
 
         {
