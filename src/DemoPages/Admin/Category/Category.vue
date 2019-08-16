@@ -3,7 +3,7 @@
         <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
 
         <div class="content">
-            <b-card class="main-card mb-3 text-center">
+            <b-card class="main-card mb-3">
 
                 <Tree :data="categoriesData" draggable="draggable" cross-tree="cross-tree">
                     <div :data-_id="data._id" :data-no="data.categoryNo" :data-name="data.name" :data-hierarchicalOrder="data.hierarchicalOrder" @click="click" @dblclick="dblclick" slot-scope="{data, store}">

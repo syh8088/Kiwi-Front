@@ -32,8 +32,38 @@
             return {
                 isOpen: false,
                 sidebarActive: false,
-
+                categoriesMenu1: [],
                 menu: [
+
+                    /*{
+                        header: true,
+                        title: 'Blog',
+                    },
+
+                    {
+                        title: 'Main',
+                        icon: 'pe-7s-rocket',
+                        child: [
+                            {
+                                href: '/blog/main',
+                                title: '블로그 메인',
+                            }
+                        ]
+                    },
+                    {},
+
+            /!*        {
+                        title: '포스트',
+                        icon: 'pe-7s-rocket',
+                        child: [
+                            {
+                                href: '/blog/posts',
+                                title: '포스트',
+                            }
+                        ]
+                    },*!/
+
+
                     {
                         header: true,
                         title: 'Blog Admin',
@@ -225,18 +255,77 @@
                         icon: 'pe-7s-graph2',
                         title: 'ChartJS',
                         href: '/charts/chartjs',
-                    },
+                    },*/
                 ],
                 collapsed: true,
-
                 windowWidth: 0,
-
+                categoriesData: [],
+                categoriesMenu: []
             }
         },
         props: {
             sidebarbg: String,
         },
         methods: {
+            getCategories() {
+                this.$api.getCategories().then(response => {
+                    if(response.status === 200 || response.status === 204) {
+                        this.categoriesData = response.data.categoryResponses;
+
+                        this.setCategoriesMenu();
+                    }
+
+                }).catch(e => {
+                    console.log(e);
+                });
+            },
+            setCategoriesMenu() {
+
+                this.menu = {
+                    icon: 'pe-7s-diamond',
+                    title: '블로그 리스트',
+                    child: []
+                };
+
+                this.test(this.categoriesData, this.menu, true);
+                console.log("#####################");
+                console.log(this.categoriesData);
+                console.log(this.categoriesMenu);
+                console.log("#####################");
+            //    this.menu[2] = this.categoriesMenu;
+            },
+            test(categoriesData, categoriesMenu, rootCategory = true) {
+
+                let k = 0;
+                let len = categoriesData.length;
+                for (; k < len ; k++ ) {
+
+                    if(rootCategory) {
+                        categoriesMenu.child[k] = {
+                            title: categoriesData[k].name,
+                            path:'/blog/posts/' + categoriesData[k].categoryNo
+                        }
+                    } else {
+                        categoriesMenu[k] = {
+                            title: categoriesData[k].name,
+                            path:'/blog/posts/' + categoriesData[k].categoryNo
+                        }
+                    }
+
+                    if(categoriesData[k].children !== undefined && categoriesData[k].children.length > 0) {
+
+                        if(rootCategory) {
+                            categoriesMenu.child[k].child = [];
+                            this.test(categoriesData[k].children, categoriesMenu.child[k].child, false);
+                        } else {
+                            categoriesMenu[k].child = [];
+                            this.test(categoriesData[k].children, categoriesMenu[k].child, false);
+                        }
+                    }
+
+
+                }
+            },
 
             toggleBodyClass(className) {
                 const el = document.body;
@@ -275,12 +364,32 @@
             },
         },
         mounted() {
+
+            this.getCategories();
+
             this.$nextTick(function () {
                 window.addEventListener('resize', this.getWindowWidth);
 
                 //Init
                 this.getWindowWidth()
             })
+        },
+        beforeCreate() {
+
+
+        },
+
+        created() {
+
+            this.categoriesMenu1 = {
+                title: '포스qqqq트',
+                icon: 'pe-7s-rocket',
+            };
+
+
+        },
+        beforeMount() {
+
         },
 
         beforeDestroy() {

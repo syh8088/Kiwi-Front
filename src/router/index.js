@@ -9,6 +9,25 @@ export default new Router({
     },
     routes: [
 
+        // Blog
+
+        {
+            path: '/blog/main',
+            name: 'main',
+            component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Blog/Main/Main.vue')
+        },
+
+        {
+            path: '/blog/posts/:id',
+            name: 'posts',
+            component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Blog/Post/Posts.vue')
+        },
+        {
+            path: '/blog/postView/:id',
+            name: 'postView',
+            component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Blog/Post/PostView.vue')
+        },
+
         // Admin
 
         {

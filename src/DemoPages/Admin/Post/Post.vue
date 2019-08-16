@@ -55,7 +55,6 @@
         }),
         created() {
             this.page = this.$route.query.page || 1;
-            console.log(this.page);
             this.getPosts();
         },
         methods: {
