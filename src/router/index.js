@@ -23,6 +23,13 @@ export default new Router({
         },
 
         {
+            path: '/blog/login',
+            name: 'login',
+            meta: {layout: 'userpages'},
+            component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Blog/User/Login.vue')
+        },
+
+        {
             path: '/blog/posts/:id',
             name: 'posts',
             component: () => import(/* webpackChunkName: "demo" */ '../DemoPages/Blog/Post/Posts.vue')

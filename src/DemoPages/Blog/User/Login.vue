@@ -62,4 +62,56 @@
 </template>
 
 <script>
+    export default {
+        components: {
+        },
+        computed: {
+            isAuthenticated() {
+                return this.$store.getters.isAuthenticated
+            }
+        },
+        data() {
+            return {
+                id: '',
+                password: '',
+            }
+        },
+
+        beforeCreate() {
+        },
+        mounted() {
+        },
+        created () {
+            console.log(this.isAuthenticated);
+        },
+        methods: {
+            login() {
+
+                let data = {
+                    username: this.id,
+                    password: this.password,
+                    grant_type: 'password'
+                };
+
+                this.$store.dispatch('LOGIN', data).then(response => {
+
+                    if(response.status === 200 || response.status === 204) {
+
+                        this.$store.dispatch('USER', true).then(response1 => {
+                            if(response.status === 200 || response.status === 204) {
+                                console.log(response1);
+                                this.$eventBus.$emit('location', 'main');
+                            } else {
+                                this.$eventBus.$emit('toast', true, '아이디 또는 비밀번호가 올바르지 않습니다.', 3000);
+                            }
+
+                        });
+                    } else {
+                        this.$eventBus.$emit('toast', true, '아이디 또는 비밀번호가 올바르지 않습니다.', 3000);
+                    }
+                });
+            }
+        }
+    }
+
 </script>

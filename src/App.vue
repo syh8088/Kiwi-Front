@@ -31,6 +31,7 @@
     },
     created() {
       this.$eventBus.$on('toast', this.toastReceive);
+      this.$eventBus.$on('location', this.locationReceive);
     },
     methods: {
         toastReceive: function(isToast, text, duration) {
@@ -41,6 +42,9 @@
                 this.toastShow = !isToast;
                 this.toastText = ''
             }.bind(this), duration);
+        },
+        locationReceive: function(where) {
+            this.$router.push({name: where});
         },
     }
   }

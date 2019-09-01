@@ -32,7 +32,23 @@
             return {
                 isOpen: false,
                 sidebarActive: false,
-                menu: [],
+                menu: [
+                    {
+                        header: true,
+                        title: 'Blog',
+                    },
+
+                    {
+                        title: 'Main',
+                        icon: 'pe-7s-rocket',
+                        child: [
+                            {
+                                href: '/blog/main',
+                                title: '블로그 메인',
+                            }
+                        ]
+                    },
+                ],
                 collapsed: true,
                 windowWidth: 0,
                 categoriesData: [],
