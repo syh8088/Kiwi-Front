@@ -2,9 +2,12 @@
 
     let Axios = require('axios');
 
-    function getAxios() {
+    const username = '67iU66Gc6re47YKk7JyE7YG065287Ja4';
+    const password = '7YKk7JyE67iU66Gc6re47Iuc7YGs66a8';
+
+    function getAxios(type) {
         return Axios.create({
-            baseURL: 'http://localhost:8082',
+            baseURL: (type === "login") ? 'http://localhost:8083' : 'http://localhost:8082',
             withCredentials: false,
             headers: {
                 'Accept': 'application/json',
@@ -20,6 +23,13 @@
         },
         getUrl: function (url) {
             return Axios.get(url)
+        },
+        getToken: function (data) {
+
+            let api = getAxios("login");
+
+            api.defaults.headers.Authorization = 'Basic ' + btoa(username + ":" + password);
+            return api.post('/oauth/token', jsonToForm(data))
         },
         getCategories: function () {
             let api = getAxios();
@@ -55,4 +65,12 @@
             return api.post('/images', formData)
         },
     };
+
+    function jsonToForm(data) {
+        const form = new FormData();
+        for (let key in data) {
+            form.append(key, data[key]);
+        }
+        return form;
+    }
 })();

@@ -37,8 +37,10 @@
     "vue-draggable-nested-tree": "^2.2.18",
     "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.1.2",
+    "vue-scroll": "^2.1.12",
     "vue-sidebar-menu": "^4.0.0",
-    "vue2-google-maps": "^0.10.7"
+    "vue2-google-maps": "^0.10.7",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.10.0",

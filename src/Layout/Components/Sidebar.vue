@@ -12,7 +12,7 @@
         </div>
         <div class="app-sidebar-content">
             <VuePerfectScrollbar class="app-sidebar-scroll" v-once>
-                <sidebar-menu showOneChild :menu="menu"/>
+                <sidebar-menu showOneChild  @toggle-collapse="onToggleCollapse" @item-click="onItemClick" :menu="menu"/>
             </VuePerfectScrollbar>
         </div>
 
@@ -32,230 +32,227 @@
             return {
                 isOpen: false,
                 sidebarActive: false,
-                categoriesMenu1: [],
                 menu: [
+                   {
+                       header: true,
+                       title: 'Blog',
+                   },
 
-                    /*{
-                        header: true,
-                        title: 'Blog',
-                    },
+                   {
+                       title: 'Main',
+                       icon: 'pe-7s-rocket',
+                       child: [
+                           {
+                               href: '/blog/main',
+                               title: '블로그 메인',
+                           }
+                       ]
+                   },
 
-                    {
-                        title: 'Main',
-                        icon: 'pe-7s-rocket',
-                        child: [
-                            {
-                                href: '/blog/main',
-                                title: '블로그 메인',
-                            }
-                        ]
-                    },
-                    {},
-
-            /!*        {
-                        title: '포스트',
-                        icon: 'pe-7s-rocket',
-                        child: [
-                            {
-                                href: '/blog/posts',
-                                title: '포스트',
-                            }
-                        ]
-                    },*!/
+                   {
+                       title: '포스트',
+                       icon: 'pe-7s-rocket',
+                       child: [
+                           {
+                               href: '/blog/posts',
+                               title: '포스트',
+                           }
+                       ]
+                   },
 
 
-                    {
-                        header: true,
-                        title: 'Blog Admin',
-                    },
-                    {
-                        title: 'Post',
-                        icon: 'pe-7s-rocket',
-                        child: [
-                            {
-                                href: '/admin/post',
-                                title: '목록',
-                            },
-                            {
-                                href: '/admin/postWrite',
-                                title: '글쓰기',
-                            }
-                        ]
-                    },
-                    {
-                        title: 'Category',
-                        icon: 'pe-7s-rocket',
-                        child: [
-                            {
-                                href: '/admin/category',
-                                title: '추가 및 수정',
-                            }
-                        ]
-                    },
+                   {
+                       header: true,
+                       title: 'Blog Admin',
+                   },
+                   {
+                       title: 'Post',
+                       icon: 'pe-7s-rocket',
+                       child: [
+                           {
+                               href: '/admin/post',
+                               title: '목록',
+                           },
+                           {
+                               href: '/admin/postWrite',
+                               title: '글쓰기',
+                           }
+                       ]
+                   },
+                   {
+                       title: 'Category',
+                       icon: 'pe-7s-rocket',
+                       child: [
+                           {
+                               href: '/admin/category',
+                               title: '추가 및 수정',
+                           }
+                       ]
+                   },
 
-                    {
-                        header: true,
-                        title: 'Main Navigation',
-                    },
-                    {
-                        title: 'Dashboards',
-                        icon: 'pe-7s-rocket',
-                        child: [
-                            {
-                                href: '/',
-                                title: 'Analytics',
-                            },
-                        ]
-                    },
-                    {
-                        title: 'Pages',
-                        icon: 'pe-7s-browser',
-                        child: [
-                            {
-                                href: '/pages/login-boxed',
-                                title: 'Login Boxed',
-                            },
-                            {
-                                href: '/pages/register-boxed',
-                                title: 'Register Boxed',
-                            },
-                            {
-                                href: '/pages/forgot-password-boxed',
-                                title: 'Forgot Password Boxed',
-                            },
-                        ]
-                    },
-                    {
-                        header: true,
-                        title: 'UI Components',
-                    },
-                    {
-                        icon: 'pe-7s-diamond',
-                        title: 'Elements',
-                        child: [
-                            {
-                                title: 'Buttons',
-                                child: [
-                                    {
-                                        title: 'Standard',
-                                        href: '/elements/buttons-standard',
-                                    },
-                                ]
-                            },
-                            {
-                                title: 'Dropdowns',
-                                href: '/elements/dropdowns',
-                            },
-                            {
-                                title: 'Icons',
-                                href: '/elements/icons',
-                            },
-                            {
-                                title: 'Badges',
-                                href: '/elements/badges-labels',
-                            },
-                            {
-                                title: 'Cards',
-                                href: '/elements/cards',
-                            },
-                            {
-                                title: 'List Groups',
-                                href: '/elements/list-group',
-                            },
-                            {
-                                title: 'Timeline',
-                                href: '/elements/timelines',
-                            },
-                            {
-                                title: 'Utilities',
-                                href: '/elements/utilities',
-                            },
-                        ],
-                    },
-                    {
-                        icon: 'pe-7s-car',
-                        title: 'Components',
-                        child: [
-                            {
-                                title: 'Tabs',
-                                href: '/components/tabs',
-                            },
-                            {
-                                title: 'Accordions',
-                                href: '/components/accordions',
-                            },
-                            {
-                                title: 'Modals',
-                                href: '/components/modals',
-                            },
-                            {
-                                title: 'Progress Bar',
-                                href: '/components/progress-bar',
-                            },
-                            {
-                                title: 'Tooltips & Popovers',
-                                href: '/components/tooltips-popovers',
-                            },
-                            {
-                                title: 'Carousel',
-                                href: '/components/carousel',
-                            },
-                            {
-                                title: 'Pagination',
-                                href: '/components/pagination',
-                            },
-                            {
-                                title: 'Maps',
-                                href: '/components/maps',
-                            },
-                        ],
-                    },
-                    {
-                        icon: 'pe-7s-display2',
-                        title: 'Tables',
-                        child: [
-                            {
-                                title: 'Regular Tables',
-                                href: '/tables/regular-tables',
-                            },
-                        ]
-                    },
-                    {
-                        header: true,
-                        title: 'Dashboard Boxes',
-                    },
-                    {
-                        icon: 'pe-7s-graph2',
-                        title: 'Chart Boxes',
-                        href: '/widgets/chart-boxes-3',
-                    },
-                    {
-                        header: true,
-                        title: 'Forms',
-                    },
-                    {
-                        icon: 'pe-7s-light',
-                        title: 'Elements',
-                        child: [
-                            {
-                                title: 'Controls',
-                                href: '/forms/controls',
-                            },
-                            {
-                                title: 'Layouts',
-                                href: '/forms/layouts',
-                            },
-                        ],
-                    },
-                    {
-                        header: true,
-                        title: 'Charts',
-                    },
-                    {
-                        icon: 'pe-7s-graph2',
-                        title: 'ChartJS',
-                        href: '/charts/chartjs',
-                    },*/
+                   {
+                       header: true,
+                       title: 'Main Navigation',
+                   },
+                   {
+                       title: 'Dashboards',
+                       icon: 'pe-7s-rocket',
+                       child: [
+                           {
+                               href: '/',
+                               title: 'Analytics',
+                           },
+                       ]
+                   },
+                   {
+                       title: 'Pages',
+                       icon: 'pe-7s-browser',
+                       child: [
+                           {
+                               href: '/pages/login-boxed',
+                               title: 'Login Boxed',
+                           },
+                           {
+                               href: '/pages/register-boxed',
+                               title: 'Register Boxed',
+                           },
+                           {
+                               href: '/pages/forgot-password-boxed',
+                               title: 'Forgot Password Boxed',
+                           },
+                       ]
+                   },
+                   {
+                       header: true,
+                       title: 'UI Components',
+                   },
+                   {
+                       icon: 'pe-7s-diamond',
+                       title: 'Elements',
+                       child: [
+                           {
+                               title: 'Buttons',
+                               child: [
+                                   {
+                                       title: 'Standard',
+                                       href: '/elements/buttons-standard',
+                                   },
+                               ]
+                           },
+                           {
+                               title: 'Dropdowns',
+                               href: '/elements/dropdowns',
+                           },
+                           {
+                               title: 'Icons',
+                               href: '/elements/icons',
+                           },
+                           {
+                               title: 'Badges',
+                               href: '/elements/badges-labels',
+                           },
+                           {
+                               title: 'Cards',
+                               href: '/elements/cards',
+                           },
+                           {
+                               title: 'List Groups',
+                               href: '/elements/list-group',
+                           },
+                           {
+                               title: 'Timeline',
+                               href: '/elements/timelines',
+                           },
+                           {
+                               title: 'Utilities',
+                               href: '/elements/utilities',
+                           },
+                       ],
+                   },
+                   {
+                       icon: 'pe-7s-car',
+                       title: 'Components',
+                       child: [
+                           {
+                               title: 'Tabs',
+                               href: '/components/tabs',
+                           },
+                           {
+                               title: 'Accordions',
+                               href: '/components/accordions',
+                           },
+                           {
+                               title: 'Modals',
+                               href: '/components/modals',
+                           },
+                           {
+                               title: 'Progress Bar',
+                               href: '/components/progress-bar',
+                           },
+                           {
+                               title: 'Tooltips & Popovers',
+                               href: '/components/tooltips-popovers',
+                           },
+                           {
+                               title: 'Carousel',
+                               href: '/components/carousel',
+                           },
+                           {
+                               title: 'Pagination',
+                               href: '/components/pagination',
+                           },
+                           {
+                               title: 'Maps',
+                               href: '/components/maps',
+                           },
+                       ],
+                   },
+                   {
+                       icon: 'pe-7s-display2',
+                       title: 'Tables',
+                       child: [
+                           {
+                               title: 'Regular Tables',
+                               href: '/tables/regular-tables',
+                           },
+                       ]
+                   },
+                   {
+                       header: true,
+                       title: 'Dashboard Boxes',
+                   },
+                   {
+                       icon: 'pe-7s-graph2',
+                       title: 'Chart Boxes',
+                       href: '/widgets/chart-boxes-3',
+                   },
+                   {
+                       header: true,
+                       title: 'Forms',
+                   },
+                   {
+                       icon: 'pe-7s-light',
+                       title: 'Elements',
+                       child: [
+                           {
+                               title: 'Controls',
+                               href: '/forms/controls',
+                           },
+                           {
+                               title: 'Layouts',
+                               href: '/forms/layouts',
+                           },
+                       ],
+                   },
+                   {
+                       header: true,
+                       title: 'Charts',
+                   },
+                   {
+                       icon: 'pe-7s-graph2',
+                       title: 'ChartJS',
+                       href: '/charts/chartjs',
+                   },
                 ],
                 collapsed: true,
                 windowWidth: 0,
@@ -267,6 +264,11 @@
             sidebarbg: String,
         },
         methods: {
+            onToggleCollapse(collapsed) {
+            },
+            onItemClick(event, item) {
+                this.$router.push({path: item.path});
+            },
             getCategories() {
                 this.$api.getCategories().then(response => {
                     if(response.status === 200 || response.status === 204) {
@@ -281,17 +283,21 @@
             },
             setCategoriesMenu() {
 
-                this.menu = {
+                this.categoriesMenu = {
                     icon: 'pe-7s-diamond',
                     title: '블로그 리스트',
                     child: []
                 };
 
-                this.test(this.categoriesData, this.menu, true);
+                this.test(this.categoriesData, this.categoriesMenu, true);
                 console.log("#####################");
                 console.log(this.categoriesData);
                 console.log(this.categoriesMenu);
+                console.log(this.menu);
                 console.log("#####################");
+
+
+                this.menu.push(this.categoriesMenu);
             //    this.menu[2] = this.categoriesMenu;
             },
             test(categoriesData, categoriesMenu, rootCategory = true) {
@@ -365,31 +371,26 @@
         },
         mounted() {
 
-            this.getCategories();
 
+            this.categoriesMenu1.push({
+                title: '포스qqqq트',
+                icon: 'pe-7s-rocket',
+            });
             this.$nextTick(function () {
                 window.addEventListener('resize', this.getWindowWidth);
 
                 //Init
                 this.getWindowWidth()
+
             })
         },
         beforeCreate() {
-
-
         },
 
         created() {
-
-            this.categoriesMenu1 = {
-                title: '포스qqqq트',
-                icon: 'pe-7s-rocket',
-            };
-
-
         },
         beforeMount() {
-
+            this.getCategories();
         },
 
         beforeDestroy() {

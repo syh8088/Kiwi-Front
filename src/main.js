@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import router from './router'
-
+import store from './store'
 import BootstrapVue from "bootstrap-vue"
 
 import App from './App'
-
+import VueScroll from 'vue-scroll'
 import Default from './Layout/Wrappers/baseLayout.vue';
+import BlogLayout from './Layout/Wrappers/blogLayout.vue';
 import Pages from './Layout/Wrappers/pagesLayout.vue';
 import VeeValidate from 'vee-validate'
 import ko from 'vee-validate/dist/locale/ko.js'
@@ -35,19 +36,37 @@ const config = {
     ko
   }
 };
-
+Vue.use(VueScroll, { debounce: 600 })
 Vue.use(VeeValidate, config);
 
 Vue.use(BootstrapVue);
 Vue.use(service);
 Vue.use(Common);
 
-Vue.component('default-layout', Default);
+let href = document.location.href;
+let firstUrl= href.substr(href.lastIndexOf('#') + 2).split("/")[0];
+
+if(firstUrl === 'admin') {
+  Vue.component('default-layout', Default);
+} else {
+  Vue.component('default-layout', BlogLayout);
+}
+
 Vue.component('userpages-layout', Pages);
+
+let EventBus = new Vue();
+Object.defineProperties(Vue.prototype, {
+  $eventBus: {
+    get: function () {
+      return EventBus;
+    }
+  }
+});
 
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 });
