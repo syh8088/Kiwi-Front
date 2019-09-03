@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div v-scroll:throttle="{fn: onScroll, throttle: 400 }"  @scroll="onScroll">
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
 
-    <div class="content" style="height:800px" >
-        <div class="row"  id="list-container" v-scroll:throttle="{fn: onScroll, throttle: 400 }" >
+    <div class="content" style="height:800px" v-scroll:throttle="{fn: onScroll, throttle: 400 }"  @scroll="onScroll">
+        <div class="row"  id="list-container" v-scroll:throttle="{fn: onScroll, throttle: 400 }"  @scroll="onScroll">
 
 
-          <div class="col-md-4" v-for="item in items" >
+          <div class="col-md-4" v-for="item in items" v-scroll:throttle="{fn: onScroll, throttle: 400 }"  @scroll="onScroll">
             <div class="mb-3 card card-body" >
               <h5 class="card-title">{{ item.title }}</h5>
               {{ item.content }}
@@ -45,6 +45,8 @@
     beforeCreate() {
     },
     mounted() {
+      document.addEventListener('scroll', this.onScroll)
+
       let href = document.location.href;
       let categoryNo = href.substr(href.lastIndexOf('/') + 1);
 
