@@ -1,12 +1,12 @@
 <template>
-  <div v-scroll:throttle="{fn: onScroll, throttle: 400 }"  @scroll="onScroll">
+  <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
 
-    <div class="content" style="height:800px" v-scroll:throttle="{fn: onScroll, throttle: 400 }"  @scroll="onScroll">
-        <div class="row"  id="list-container" v-scroll:throttle="{fn: onScroll, throttle: 400 }"  @scroll="onScroll">
+    <div class="content" style="height:800px">
+        <div class="row" id="list-container" v-scroll:throttle="{fn: onScroll, throttle: 400 }">
 
 
-          <div class="col-md-4" v-for="item in items" v-scroll:throttle="{fn: onScroll, throttle: 400 }"  @scroll="onScroll">
+          <div class="col-md-4" v-for="item in items">
             <div class="mb-3 card card-body" >
               <h5 class="card-title">{{ item.title }}</h5>
               {{ item.content }}
@@ -17,6 +17,11 @@
 
 
         </div>
+    </div>
+
+
+    <div id="viewLoading" style="display: none;">
+      <img id="loading-image" src="http://xn--950br8e31tlycdyl0qd.kr/img/img-loading.gif" alt="Loading..." class="loading-image">
     </div>
   </div>
 </template>
@@ -36,16 +41,19 @@
       icon: 'pe-7s-stopwatch icon-gradient bg-amy-crisp',
       items: [],
       totalSize: 0,
+      size: 0,
       page: 1,
       limit: 5,
       totalPages: 0,
-      categoryNo: 0
-    }),
+      categoryNo: 0,
+      flag: true
+
+  }),
 
     beforeCreate() {
     },
     mounted() {
-      document.addEventListener('scroll', this.onScroll)
+      document.addEventListener('scroll', this.onScroll);
 
       let href = document.location.href;
       let categoryNo = href.substr(href.lastIndexOf('/') + 1);
@@ -60,16 +68,31 @@
     created () {
     },
     methods: {
-      onScroll(e, position) {
-        console.log(position.scrollTop);
-        console.log(document.getElementById('list-container').scrollHeight - 300);
+      onScroll() {
 
-        if(position.scrollTop >= (document.getElementById('list-container').scrollHeight - 300)) {
-          this.page+=1
+        if(this.flag && document.documentElement.scrollTop + document.getElementsByClassName("app-footer__inner")[0].scrollHeight > document.body.scrollHeight - window.innerHeight) {
+          this.page+=1;
           if(this.totalPages >= this.page) {
-            this.getPosts()
+            this.getPosts();
+          } else {
+            this.flag = false;
           }
+  /*
+          if (this.flag === true && parseInt(this.size) < parseInt(this.totalSize) ) {
+            //$('#viewLoading').fadeIn(500);
+            this.flag = false;
+
+            //$('#viewLoading').fadeOut(500);
+
+            setTimeout(() => {
+              console.log("POsts");
+              this.getPosts();
+              this.flag = true;
+            }, 500);
+          }*/
+
         }
+
       },
       movePostView(postNo) {
         this.$router.push({path:'/blog/postView/' + postNo});
@@ -87,7 +110,7 @@
 
           this.$api.getPosts(data).then(response => {
             if(response.status === 200 || response.status === 204) {
-              this.items = [];
+              //this.items = [];
               let postResponses = response.data.postResponses;
 
               let k = 0;
@@ -113,6 +136,7 @@
                 this.items.push(data);
               }
 
+              this.size = response.data.size;
               this.totalSize = response.data.totalElements;
               this.totalPages = response.data.totalPages;
             }
@@ -126,3 +150,7 @@
     }
   }
 </script>
+<style>
+  #viewLoading {width:100%;margin:0 auto 20px;text-align:center}
+  #viewLoading>.loading-image{display:inline-block;max-width:100%;height:auto}
+</style>
